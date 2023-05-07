@@ -1,35 +1,108 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import React, {Component} from 'react'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+interface ButtonUserChoice {
+  options: string[];
+  click: Event
 }
 
+
+const ButtonUserChoice: React.FC<ButtonUserChoice> = (props) => {
+  const options = props.options
+return (options.map((option )=> <button key={option} onClick={props.click}>{option}</button>))
+}
+
+interface App {
+  computersOption: string;
+  userOption: string;
+  options: string[];
+  computersVictory: number;
+  usersVictory: number
+}
+
+class App extends React.Component {
+
+state = {
+  computersOption: '',
+  userOption: '',
+  options: ['kamień', 'papier', 'nożyce'],
+  computersVictory: 0,
+  usersVictory: 0
+
+}
+
+handleUserClick = (event:Event) => {
+  const clickedButton = event.target
+const computersChoice: string[] = this.state.options
+const number = Math.floor(Math.random()*computersChoice.length)
+
+this.setState({
+  userOption: clickedButton.textContent,
+  computersOption: computersChoice[number]
+})
+
+this.handleResult()
+}
+
+handleResult = () => {
+  const {computersOption, computersVictory, userOption, usersVictory} = this.state
+  if (computersOption === 'kamień' && userOption === 'kamień') {
+    console.log('remis')}
+    else if (computersOption === 'papier' && userOption === 'papier'){
+      console.log('remis')
+    }
+    else if (computersOption === 'nożyce' && userOption === 'nożyce'){
+      console.log('remis')
+    }
+    else if (computersOption === 'kamień' && userOption === 'papier'){
+      this.setState ({
+        usersVictory: usersVictory +1
+      })
+    }
+    else if (computersOption === 'kamień' && userOption === 'nożyce'){
+      this.setState (({
+        computersVictory:computersVictory +1
+      }))
+    }
+    else if (computersOption === 'papier' && userOption === 'nożyce'){
+      this.setState (({
+        usersVictory: usersVictory +1
+      }))
+    }
+    else if (computersOption === 'papier' && userOption === 'kamień'){
+      this.setState (({
+        computersVictory:computersVictory +1
+      }))
+    }
+    else if (computersOption === 'nożyce' && userOption === 'kamień'){
+      this.setState (({
+        usersVictory: usersVictory +1
+      }))
+    }
+    else if (computersOption === 'nożyce' && userOption === 'papier'){
+      this.setState (({
+        computersVictory: computersVictory +1
+      }))
+    }
+}
+
+
+render() {
+  
+  return(
+    <div>
+      <ButtonUserChoice click={this.handleUserClick} options={this.state.options}/>
+    <h1>Wybór użytkownika: {this.state.userOption}</h1>
+    <h2>Wybór komputera: {this.state.computersOption}</h2>
+    <p>Zwycięstwa użytkownika: {this.state.usersVictory}</p>
+    <p>Zwycięstwa komputera: {this.state.computersVictory}</p>
+    </div>
+
+  )
+  }
+}
 export default App
+
+
