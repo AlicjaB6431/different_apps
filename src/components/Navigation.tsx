@@ -12,18 +12,19 @@ const list = [
 
 const Navigation = () => {
 
-
-
-    const menu = list.map(item => <li key={item.name}><NavLink to ={item.path} exact={item.exact ? item.exact : false}>{item.name}</NavLink></li>)
+    const menu = list.map(item => <li key={item.name}><NavLink to ={item.path}>{item.name}</NavLink></li>)
     console.log({menu})
 
 
 return (
     <nav>
         <ul>
-       {menu}
+ {menu}
         </ul>
     </nav>
-)}
+)
+}
 
 export default Navigation
+
+// tworze nawigację i dodaję do nich odpowiednie ścieżki

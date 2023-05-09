@@ -1,10 +1,11 @@
 
 import {useState} from 'react'
-import './App.css'
-import Navigation from './components/Navigation'
+import './RockPaperScisorsApp.css'
 
 
-const App = () => {
+
+const RockPaperScisorsApp = () => {
+
 const [userChoice, setUserChoice] = useState('')
 const [computerChoice, setComputerChoice] = useState ('')
 const [userScoreCounter, setUserScoreCounter] = useState (0)
@@ -34,7 +35,7 @@ const handleResult = () => {
   else if (
     (userChoice === 'papier' && computerChoice === 'kamień') ||
     (userChoice === 'kamień' && computerChoice === 'nożyce') ||
-    (userChoice === 'nożyce' && computerChoice === 'kamień')
+    (userChoice === 'nożyce' && computerChoice === 'papier')
   ) {
     setUserScoreCounter(userScoreCounter + 1)
   }
@@ -68,6 +69,6 @@ const handleResult = () => {
   )
       }
 
-export default App
+export default RockPaperScisorsApp
 
 
