@@ -1,17 +1,19 @@
-import React, {Component} from 'react'
+import styled from 'styled-components'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Navigation from './Navigation'
 import Page from './Page'
-import './App.css'
+
+
 
 
 const App = () => {
     return (
         <Router>
-            <main>
+            <MainStyle>
                 <aside><Navigation/></aside>
                 <section><Page/></section>
-            </main>
+              
+            </MainStyle>
         </Router>
     )
 }
@@ -19,3 +21,9 @@ const App = () => {
 export default App
 
 // miejsce, gdzie wyświetlam tylko wszystkie swtorzone elementy
+
+const MainStyle = styled.main `
+margin: 0;
+
+
+`

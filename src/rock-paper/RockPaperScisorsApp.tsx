@@ -1,8 +1,5 @@
-
+import styled from 'styled-components'
 import {useState} from 'react'
-import './RockPaperScisorsApp.css'
-
-
 
 const RockPaperScisorsApp = () => {
 
@@ -53,18 +50,23 @@ const handleResult = () => {
   }
  
   return(
-    <div>
+    <MainDiv>
+      <UserButtonDivStyle>
       {options.map((option, index) => (
-        <button key={index} onClick={handleUserClick}>{option}</button>
+        <UserButtonStyle key={index} onClick={handleUserClick}>{option}</UserButtonStyle>
       ))}
-    <h1>Wybór użytkownika: {userChoice}</h1>
-    <h1>Wybór komputera:{computerChoice}</h1>
-    <h1>Zwycięstwa gracz: {userScoreCounter}</h1>
-    <h1>Zwycięstwa komputer: {computerScoreCounter}</h1>
-    <button onClick = {handleReset}>Resetuj</button>
+      </UserButtonDivStyle>
+      <ChoiceDivStyle>
+    <ChoiceHStyle>Wybór użytkownika: <strong>{userChoice}</strong></ChoiceHStyle>
+    <ChoiceHStyle>Wybór komputera: <strong>{computerChoice}</strong> </ChoiceHStyle>
+      </ChoiceDivStyle>
+      <VictoryStyle>
+    <VictoryParagraphStyle>Zwycięstwa gracz: <strong>{userScoreCounter}</strong></VictoryParagraphStyle>
+    <VictoryParagraphStyle>Zwycięstwa komputer: <strong>{computerScoreCounter}</strong></VictoryParagraphStyle>
+      </VictoryStyle>
+    <ResetButtonStyle onClick = {handleReset}>Zacznij od nowa</ResetButtonStyle>
 
-   
-    </div>
+    </MainDiv>
 
   )
       }
@@ -72,3 +74,72 @@ const handleResult = () => {
 export default RockPaperScisorsApp
 
 
+const MainDiv = styled.div `
+position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+width: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #094274;
+  max-width: 1000px;
+  transition: scale 4s;
+  font-family: Arial, Helvetica, sans-serif;
+`
+
+const UserButtonStyle = styled.button `
+margin: 40px;
+padding: 40px 30px;
+font-size: 25px;
+background-color: black;
+color: white;
+border-radius: 15px;
+border: none;
+
+`
+const UserButtonDivStyle = styled.div `
+  display: flex;
+flex-direction: row;
+justify-content: space-evenly;
+
+`
+const ChoiceDivStyle = styled.div `
+  color: white;
+  margin-left: 40px;
+`
+const ChoiceHStyle = styled.p `
+  background-color: green;
+  padding: 7px;
+  width: 30%;
+  border-radius: 25px;
+  padding: 10px 15px;
+`
+
+const VictoryStyle = styled.div `  
+position: relative;
+  color: white;
+
+
+`
+const VictoryParagraphStyle = styled.p `
+  background-color: red;
+  padding: 7px;
+  width: 30%;
+  border-radius: 25px;
+  padding: 10px 15px;
+  margin-left: 60%;
+`
+
+const ResetButtonStyle = styled.button `
+  background-color: gold;
+  width: 200px;
+  padding: 15px 20px;
+  border-radius: 25px;
+  margin-bottom: 10vh;
+  margin-left: 10vh;
+  &:hover {
+    transform: scale(1.1);
+  }
+
+`
