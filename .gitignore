@@ -22,3 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+src/rock-paper/RockPaperScisorsApp.tsx
+src/rock-paper/RockPaperScisorsApp.tsx

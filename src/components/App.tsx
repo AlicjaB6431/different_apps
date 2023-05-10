@@ -1,29 +1,22 @@
-import styled from 'styled-components'
-import { BrowserRouter as Router } from 'react-router-dom'
-import Navigation from './Navigation'
-import Page from './Page'
-
-
-
+import { BrowserRouter as Router } from 'react-router-dom';
+import Navigation from './Navigation/Navigation';
+import Page from './Page';
 
 const App = () => {
-    return (
-        <Router>
-            <MainStyle>
-                <aside><Navigation/></aside>
-                <section><Page/></section>
-              
-            </MainStyle>
-        </Router>
-    )
-}
+	return (
+		<Router>
+			<main>
+				<nav>
+					<Navigation />
+				</nav>
+				<section>
+					<Page />
+				</section>
+			</main>
+		</Router>
+	);
+};
 
-export default App
+export default App;
 
 // miejsce, gdzie wyświetlam tylko wszystkie swtorzone elementy
-
-const MainStyle = styled.main `
-margin: 0;
-
-
-`
