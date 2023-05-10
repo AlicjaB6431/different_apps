@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const RockPaperScisorsApp = () => {
 	const [userChoice, setUserChoice] = useState('');
 	const [computerChoice, setComputerChoice] = useState('');
 	const [userScoreCounter, setUserScoreCounter] = useState(0);
 	const [computerScoreCounter, setComputerScoreCounter] = useState(0);
+	const [numberOfGamesCounter, setNumberOfGamesCounter] = useState(0);
 
 	const options = ['kamień', 'papier', 'nożyce'];
 
@@ -15,19 +16,22 @@ const RockPaperScisorsApp = () => {
 
 		setUserChoice(clickedButton.textContent || '');
 		setComputerChoice(computerOption);
-		handleResult();
+		setNumberOfGamesCounter(numberOfGamesCounter + 1);
+		handleResult(clickedButton.textContent || '', computerOption);
 	};
 
-	const handleResult = () => {
+	const handleResult = (userChoice: string, computerChoice: string) => {
 		if (userChoice === computerChoice) {
-			console.log('remis');
+			return null;
 		} else if (
 			(userChoice === 'papier' && computerChoice === 'kamień') ||
 			(userChoice === 'kamień' && computerChoice === 'nożyce') ||
 			(userChoice === 'nożyce' && computerChoice === 'papier')
 		) {
 			setUserScoreCounter(userScoreCounter + 1);
-		} else setComputerScoreCounter(computerScoreCounter + 1);
+		} else {
+			setComputerScoreCounter(computerScoreCounter + 1);
+		}
 	};
 
 	const handleReset = () => {
@@ -35,6 +39,7 @@ const RockPaperScisorsApp = () => {
 		setComputerChoice('');
 		setComputerScoreCounter(0);
 		setUserScoreCounter(0);
+		setNumberOfGamesCounter(0);
 	};
 
 	return (
@@ -61,6 +66,9 @@ const RockPaperScisorsApp = () => {
 				<ScoreDisplay>
 					Zwycięstwa komputer: <strong>{computerScoreCounter}</strong>
 				</ScoreDisplay>
+				<ScoreDisplay>
+					Liczba wszystkich gier: <strong>{numberOfGamesCounter}</strong>{' '}
+				</ScoreDisplay>
 			</ScoreContainer>
 			<ResetButtonContainer onClick={handleReset}>
 				Zacznij od nowa
@@ -81,13 +89,11 @@ const MainWrapper = styled.div`
 	flex-direction: column;
 	background-color: #094274;
 	max-width: 1000px;
-	transition: scale 4s;
 	font-family: Arial, Helvetica, sans-serif;
 `;
 
 const UsersButtonContainer = styled.div`
 	display: flex;
-	flex-direction: row; // wartość domyślna to row
 	justify-content: space-evenly;
 `;
 const SelectionButton = styled.button`
@@ -99,6 +105,9 @@ const SelectionButton = styled.button`
 	border-radius: 15px;
 	border: none;
 	cursor: pointer;
+	&:hover {
+		background-color: #068a8a;
+	}
 `;
 const SelectionContainer = styled.div`
 	color: white;
