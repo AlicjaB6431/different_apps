@@ -26,7 +26,8 @@ export default Navigation;
 const MainNavigationContainer = styled.nav`
 	font-size: 20px;
 	text-transform: uppercase;
-	background-color: #4b0c0c;
+	font-weight: bold;
+	background-color:#3C5473;
 	min-width: 90vh;
 	font-family: Arial, Helvetica, sans-serif;
 `;
@@ -44,6 +45,9 @@ const StylednavLink = styled(NavLink)`
 	padding: 15px 25px;
 	color: white;
 	text-decoration: none;
+	&:hover {
+		color: #F7D6D2;
+	}
 `;
 
 // tworze nawigację i dodaję do nich odpowiednie ścieżki

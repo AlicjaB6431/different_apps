@@ -87,7 +87,7 @@ const MainWrapper = styled.div`
 	width: 100%;
 	display: flex;
 	flex-direction: column;
-	background-color: #094274;
+	background-color: #3C5473;
 	max-width: 1000px;
 	font-family: Arial, Helvetica, sans-serif;
 `;
@@ -100,13 +100,14 @@ const SelectionButton = styled.button`
 	margin: 40px;
 	padding: 40px 30px;
 	font-size: 25px;
-	background-color: black;
-	color: white;
+	background-color: #F7D6D2;
+	color: black;
 	border-radius: 15px;
 	border: none;
 	cursor: pointer;
+	border: 5px solid #ecbbb7;
 	&:hover {
-		background-color: #068a8a;
+		background-color: #ecbbb7;
 	}
 `;
 const SelectionContainer = styled.div`
@@ -114,7 +115,8 @@ const SelectionContainer = styled.div`
 	margin-left: 40px;
 `;
 const SelectionDisplay = styled.p`
-	background-color: green;
+	background-color: #D7D7D9;
+	color: black;
 	padding: 7px;
 	width: 30%;
 	border-radius: 25px;
@@ -126,7 +128,8 @@ const ScoreContainer = styled.div`
 	color: white;
 `;
 const ScoreDisplay = styled.p`
-	background-color: red;
+	background-color: #94A69F;
+	color: black;
 	padding: 7px;
 	width: 30%;
 	border-radius: 25px;
@@ -135,7 +138,7 @@ const ScoreDisplay = styled.p`
 `;
 
 const ResetButtonContainer = styled.button`
-	background-color: gold;
+	background-color: #F7D6D2;
 	width: 200px;
 	padding: 15px 20px;
 	border-radius: 25px;
