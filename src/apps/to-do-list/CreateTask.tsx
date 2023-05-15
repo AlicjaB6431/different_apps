@@ -7,55 +7,56 @@ type Inputs = {
   toDoInput: string
 }
 
-interface TaskData {
-  data: string
-  index: number
-}
-
 function CreateTask() {
-  const [toDoInput, setToDoInput] = useState([])
+  const [toDoInput, setToDoInput] = useState('')
 
   const [allTasks, setAllTasks] = useState([
     {
-      title: '',
+      id: 0,
+      title: 'Zadanie 1',
       confirmed: true,
     },
-    { title: 'dfgdged', confirmed: true },
   ])
   const { register, getValues, handleSubmit } = useForm<Inputs>()
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data)
-
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleButtonClick: SubmitHandler<Inputs> = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     const inputValue = getValues('toDoInput')
-
-    setToDoInput((toDoInput) => [...toDoInput, inputValue])
+    if (inputValue) {
+      setAllTasks((allTasks) => [...allTasks, { title: inputValue, completed: false }])
+    }
+    setToDoInput('')
   }
 
-  const handleRemoveTaskButton = (index) => {
-    console.log('ok')
+  const handleRemoveTaskButton = (index: number) => {
+    setAllTasks((allTasks) => allTasks.filter((_, i) => i !== index))
+
+    // tutaj usuwam element, który ma index równy przekazanemu
   }
+
+  const handleFinishTaskButton = () => {}
 
   return (
     <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(handleButtonClick)}>
         <label>Nowe zadanie: </label>
         <input
           type='text'
           placeholder='Wpisz zadanie...'
+          value={toDoInput}
           {...register('toDoInput', { required: true })}
+          onChange={(e) => setToDoInput(e.target.value)}
         />
         <button onClick={handleButtonClick}>Dodaj</button>
       </form>
 
       <ul>
-        {toDoInput.map((data, index) => (
+        {allTasks.map((task, index) => (
           <Task
             key={index}
             index={index}
-            data={data}
-            removeClick={handleRemoveTaskButton}
+            data={task.title}
+            removeClick={() => handleRemoveTaskButton(index)}
           />
         ))}
       </ul>
