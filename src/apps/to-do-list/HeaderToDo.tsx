@@ -6,7 +6,6 @@ function ToDoListHeader() {
     <div>
       <header>
         <h2>ToDo List</h2>
-        <p>Zorganizuj swoje wydarzenia, obowiązki</p>
       </header>
     </div>
   )

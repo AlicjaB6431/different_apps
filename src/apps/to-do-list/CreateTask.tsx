@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useState } from 'react'
 import Task from './Task'
+import CompletedTasks from './CompletedTasks'
 
 type Inputs = {
   toDoInput: string
@@ -13,7 +14,7 @@ function CreateTask() {
   const [allTasks, setAllTasks] = useState([
     {
       id: 0,
-      title: 'Zadanie 1',
+      title: '',
       confirmed: true,
     },
   ])
@@ -23,7 +24,7 @@ function CreateTask() {
     e.preventDefault()
     const inputValue = getValues('toDoInput')
     if (inputValue) {
-      setAllTasks((allTasks) => [...allTasks, { title: inputValue, completed: false }])
+      setAllTasks((allTasks) => [...allTasks, { title: inputValue, confirmed: false }])
     }
     setToDoInput('')
   }
@@ -34,8 +35,13 @@ function CreateTask() {
     // tutaj usuwam element, który ma index równy przekazanemu
   }
 
-  const handleFinishTaskButton = () => {}
-
+  const handleConfirmTaskButton = (index: number) => {
+    setAllTasks((allTasks) => {
+      const updatedTasks = [...allTasks]
+      updatedTasks[index] = { ...updatedTasks[index], confirmed: true }
+      return updatedTasks
+    })
+  }
   return (
     <div>
       <form onSubmit={handleSubmit(handleButtonClick)}>
@@ -53,12 +59,18 @@ function CreateTask() {
       <ul>
         {allTasks.map((task, index) => (
           <Task
+            confirmed={task.confirmed}
             key={index}
             index={index}
             data={task.title}
             removeClick={() => handleRemoveTaskButton(index)}
+            confirmClick={() => handleConfirmTaskButton(index)}
           />
         ))}
+      </ul>
+      <p>Zadania ukończone:</p>
+      <ul>
+        <CompletedTasks allTasks={allTasks} />
       </ul>
     </div>
   )
