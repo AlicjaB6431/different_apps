@@ -14,8 +14,8 @@ function CreateTask() {
   const [allTasks, setAllTasks] = useState([
     {
       id: 0,
-      title: '',
-      confirmed: true,
+      title: 'Zadanie 1',
+      confirmed: false,
     },
   ])
   const { register, getValues, handleSubmit } = useForm<Inputs>()
@@ -37,9 +37,9 @@ function CreateTask() {
 
   const handleConfirmTaskButton = (index: number) => {
     setAllTasks((allTasks) => {
-      const updatedTasks = [...allTasks]
-      updatedTasks[index] = { ...updatedTasks[index], confirmed: true }
-      return updatedTasks
+      const newTasks = [...allTasks]
+      newTasks[index] = { ...newTasks[index], confirmed: true }
+      return newTasks
     })
   }
   return (

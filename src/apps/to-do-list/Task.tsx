@@ -1,6 +1,7 @@
 interface Task {
   data: string
   index: number
+
 }
 
 function Task({ data, index, removeClick, confirmClick, confirmed }: Task) {
