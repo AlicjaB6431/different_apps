@@ -1,20 +1,32 @@
 import styled from 'styled-components'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { useState } from 'react'
-import Task from './Task'
+import ActiveTask from './ActiveTasks'
 import CompletedTasks from './CompletedTasks'
 
 type Inputs = {
   toDoInput: string
 }
 
+function getCurrentDate() {
+  const date = new Date().getDate()
+  const month = new Date().getMonth() + 1
+  const year = new Date().getFullYear()
+  const hours = new Date().getHours()
+  const min = new Date().getMinutes()
+
+  const newDate = date + '/' + month + '/' + year + '    ' + hours + ':' + min
+  return newDate
+}
+
 function CreateTask() {
   const [toDoInput, setToDoInput] = useState('')
+  const [currentDate, setCurrentDate] = useState(getCurrentDate())
 
   const [allTasks, setAllTasks] = useState([
     {
       id: 0,
-      title: 'Zadanie 1',
+      title: '',
       confirmed: false,
     },
   ])
@@ -31,8 +43,6 @@ function CreateTask() {
 
   const handleRemoveTaskButton = (index: number) => {
     setAllTasks((allTasks) => allTasks.filter((_, i) => i !== index))
-
-    // tutaj usuwam element, który ma index równy przekazanemu
   }
 
   const handleConfirmTaskButton = (index: number) => {
@@ -41,10 +51,11 @@ function CreateTask() {
       newTasks[index] = { ...newTasks[index], confirmed: true }
       return newTasks
     })
+    setCurrentDate(getCurrentDate())
   }
   return (
-    <div>
-      <form onSubmit={handleSubmit(handleButtonClick)}>
+    <MainWrapper>
+      <FormContainer onSubmit={handleSubmit(handleButtonClick)}>
         <label>Nowe zadanie: </label>
         <input
           type='text'
@@ -54,26 +65,37 @@ function CreateTask() {
           onChange={(e) => setToDoInput(e.target.value)}
         />
         <button onClick={handleButtonClick}>Dodaj</button>
-      </form>
+      </FormContainer>
 
       <ul>
         {allTasks.map((task, index) => (
-          <Task
+          <ActiveTask
             confirmed={task.confirmed}
             key={index}
             index={index}
-            data={task.title}
+            title={task.title}
             removeClick={() => handleRemoveTaskButton(index)}
             confirmClick={() => handleConfirmTaskButton(index)}
           />
         ))}
       </ul>
-      <p>Zadania ukończone:</p>
-      <ul>
-        <CompletedTasks allTasks={allTasks} />
-      </ul>
-    </div>
+
+      <CompletedTasks
+        allTasks={allTasks}
+        currentDate={currentDate}
+      />
+    </MainWrapper>
   )
 }
 
 export default CreateTask
+
+const MainWrapper = styled.div`
+  position: relative;
+`
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+`

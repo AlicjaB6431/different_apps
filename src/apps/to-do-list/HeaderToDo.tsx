@@ -1,14 +1,17 @@
-import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
 
 function ToDoListHeader() {
   return (
-    <div>
-      <header>
-        <h2>ToDo List</h2>
-      </header>
-    </div>
+    <HeaderContainer>
+      <h2>ToDo List</h2>
+    </HeaderContainer>
   )
 }
 
 export default ToDoListHeader
+
+const HeaderContainer = styled.header`
+  text-align: center;
+  color: #276ba7;
+  font-family: Arial, Helvetica, sans-serif;
+`

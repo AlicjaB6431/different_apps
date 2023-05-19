@@ -11,8 +11,8 @@ const RockPaperScisorsApp = () => {
   const options = ['kamień', 'papier', 'nożyce']
 
   useEffect(() => {
-    handleResult(userChoice, computerChoice)
-  }, [userChoice, refreshCounter])
+    handleResult()
+  }, [refreshCounter])
 
   const handleUserClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const clickedButton = event.target as HTMLButtonElement
@@ -21,11 +21,10 @@ const RockPaperScisorsApp = () => {
     setUserChoice(clickedButton.textContent || '')
     setComputerChoice(computerOption)
     setRefreshCounter(refreshCounter + 1)
-    handleResult(clickedButton.textContent || '', computerOption)
+    handleResult()
   }
 
   const handleResult = () => {
-//   const handleResult = (userChoice: string, computerChoice: string) => {
     if (userChoice === computerChoice) {
       return null
     } else if (
