@@ -55,35 +55,40 @@ function CreateTask() {
   }
   return (
     <MainWrapper>
+      <HeaderContainer>
+        <h2>ToDo List</h2>
+      </HeaderContainer>
       <FormContainer onSubmit={handleSubmit(handleButtonClick)}>
-        <label>Nowe zadanie: </label>
-        <input
+        <InputContainer
           type='text'
           placeholder='Wpisz zadanie...'
           value={toDoInput}
           {...register('toDoInput', { required: true })}
           onChange={(e) => setToDoInput(e.target.value)}
         />
-        <button onClick={handleButtonClick}>Dodaj</button>
+        <ButtonAddTask onClick={handleButtonClick}>Dodaj</ButtonAddTask>
       </FormContainer>
 
-      <ul>
-        {allTasks.map((task, index) => (
-          <ActiveTask
-            confirmed={task.confirmed}
-            key={index}
-            index={index}
-            title={task.title}
-            removeClick={() => handleRemoveTaskButton(index)}
-            confirmClick={() => handleConfirmTaskButton(index)}
-          />
-        ))}
-      </ul>
-
-      <CompletedTasks
-        allTasks={allTasks}
-        currentDate={currentDate}
-      />
+      <ActiveTaskContainer>
+        <ul>
+          {allTasks.map((task, index) => (
+            <ActiveTask
+              confirmed={task.confirmed}
+              key={index}
+              index={index}
+              title={task.title}
+              removeClick={() => handleRemoveTaskButton(index)}
+              confirmClick={() => handleConfirmTaskButton(index)}
+            />
+          ))}
+        </ul>
+      </ActiveTaskContainer>
+      <CompletedTaskContainer>
+        <CompletedTasks
+          allTasks={allTasks}
+          currentDate={currentDate}
+        />
+      </CompletedTaskContainer>
     </MainWrapper>
   )
 }
@@ -91,11 +96,63 @@ function CreateTask() {
 export default CreateTask
 
 const MainWrapper = styled.div`
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  max-width: 600px;
+  height: 75%;
+  min-height: 400px;
+  border: 3px solid #547bad;
+  box-shadow: 5px 5px 20px;
+  border-radius: 10px;
+`
+
+const HeaderContainer = styled.header`
+  text-align: center;
+  color: #276ba7;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 22px;
 `
 
 const FormContainer = styled.form`
   display: flex;
-  flex-direction: column;
-  width: 60%;
+  justify-content: space-around;
+  margin: 10px;
+  width: 100%;
+`
+
+const InputContainer = styled.input`
+  width: 65%;
+  font-family: 'Montserrat', sans-serif;
+`
+
+const ButtonAddTask = styled.button`
+  margin-right: 15px;
+  padding: 10px 20px;
+  background-color: #276ba7;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  &:hover {
+    background-color: #14426b;
+  }
+`
+
+const ActiveTaskContainer = styled.div`
+  height: 40%;
+  width: 100%;
+  overflow: scroll;
+`
+
+const CompletedTaskContainer = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  height: 40%;
+  /* background-color: #a1a11e; */
+  overflow: hidden;
 `
