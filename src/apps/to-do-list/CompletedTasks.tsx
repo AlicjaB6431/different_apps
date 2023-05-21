@@ -1,12 +1,18 @@
 import styled from 'styled-components'
+import { TodoType } from './CreateTask'
 
-function CompletedTasks({ allTasks, currentDate }) {
+type CompletedTask = {
+  allTasks: TodoType[]
+  currentDate: string
+}
+
+function CompletedTasks({ allTasks, currentDate }: CompletedTask) {
   let updatedTasks = [...allTasks]
 
   updatedTasks = updatedTasks.filter((task) => task.confirmed === true)
   const completed = updatedTasks.map((task) => (
     <ListContainer key={task.id}>
-      {task.title}
+      {task.toDoInput}
       <DateContainer>{currentDate}</DateContainer>
     </ListContainer>
   ))
