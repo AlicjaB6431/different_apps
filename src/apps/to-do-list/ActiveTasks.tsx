@@ -2,22 +2,24 @@ import styled from 'styled-components'
 
 interface Task {
   title: string
-  index: number
   confirmed: boolean
+  id: number
+  handleRemoveTaskButton: (id: number) => void
+  handleConfirmTaskButton: (id: number) => void
 }
 
-function ActiveTask({ title, index, removeClick, confirmClick, confirmed }: Task) {
+function ActiveTask({ title, handleRemoveTaskButton, handleConfirmTaskButton, confirmed, id }: Task) {
   return title.length > 0 && confirmed === false ? (
-    <ListContainer>
+    <SingleTask>
       <TitleContainer>{title}</TitleContainer>
-      <DeleteAndSubmitButtons onClick={() => removeClick(index)}>Usuń</DeleteAndSubmitButtons>
-      <DeleteAndSubmitButtons onClick={() => confirmClick()}>Zatwierdź</DeleteAndSubmitButtons>
-    </ListContainer>
+      <DeleteAndSubmitButtons onClick={() => handleRemoveTaskButton(id)}>Usuń</DeleteAndSubmitButtons>
+      <DeleteAndSubmitButtons onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</DeleteAndSubmitButtons>
+    </SingleTask>
   ) : null
 }
 export default ActiveTask
 
-const ListContainer = styled.li`
+const SingleTask = styled.li`
   font-family: 'Montserrat', sans-serif;
   display: flex;
   align-items: center;

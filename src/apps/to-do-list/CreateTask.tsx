@@ -1,93 +1,86 @@
 import styled from 'styled-components'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import ActiveTask from './ActiveTasks'
 import CompletedTasks from './CompletedTasks'
 
-type Inputs = {
+export type TodoType = {
+  id: number
   toDoInput: string
+  confirmed: boolean
+  confirmedDate: number
 }
 
 function getCurrentDate() {
-  const date = new Date().getDate()
-  const month = new Date().getMonth() + 1
-  const year = new Date().getFullYear()
-  const hours = new Date().getHours()
-  const min = new Date().getMinutes()
-
-  const newDate = date + '/' + month + '/' + year + '    ' + hours + ':' + min
+  const newDate = new Date().getTime()
   return newDate
 }
 
-function CreateTask() {
-  const [toDoInput, setToDoInput] = useState('')
-  const [currentDate, setCurrentDate] = useState(getCurrentDate())
+const CreateTask = () => {
+  const { register, handleSubmit, reset } = useForm()
+  const [allTasks, setAllTasks] = useState<TodoType[]>([])
 
-  const [allTasks, setAllTasks] = useState([
-    {
-      id: 0,
-      title: '',
+  const onSubmit = (data: FieldValues) => {
+    const newTodo: TodoType = {
+      id: Math.random(),
+      toDoInput: data.toDoInput,
       confirmed: false,
-    },
-  ])
-  const { register, getValues, handleSubmit } = useForm<Inputs>()
-
-  const handleButtonClick: SubmitHandler<Inputs> = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault()
-    const inputValue = getValues('toDoInput')
-    if (inputValue) {
-      setAllTasks((allTasks) => [...allTasks, { title: inputValue, confirmed: false }])
+      confirmedDate: 0,
     }
-    setToDoInput('')
+    setAllTasks((prevTodos) => [...prevTodos, newTodo])
+    reset()
   }
 
-  const handleRemoveTaskButton = (index: number) => {
-    setAllTasks((allTasks) => allTasks.filter((_, i) => i !== index))
+  const handleRemoveTaskButton = (id: number) => {
+    setAllTasks((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
   }
 
-  const handleConfirmTaskButton = (index: number) => {
-    setAllTasks((allTasks) => {
-      const newTasks = [...allTasks]
-      newTasks[index] = { ...newTasks[index], confirmed: true }
-      return newTasks
+  const handleConfirmTaskButton = (id: number) => {
+    setAllTasks((prevTodos) => {
+      const updatedTodos = prevTodos.map((todo) => {
+        if (todo.id === id) {
+          return {
+            ...todo,
+            confirmed: true,
+            confirmedDate: getCurrentDate(),
+          }
+        }
+        return todo
+      })
+
+      return updatedTodos
     })
-    setCurrentDate(getCurrentDate())
   }
+
   return (
     <MainWrapper>
       <HeaderContainer>
-        <h2>ToDo List</h2>
+        <HeaderTitle>ToDo List</HeaderTitle>
       </HeaderContainer>
-      <FormContainer onSubmit={handleSubmit(handleButtonClick)}>
+      <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <InputContainer
-          type='text'
           placeholder='Wpisz zadanie...'
-          value={toDoInput}
           {...register('toDoInput', { required: true })}
-          onChange={(e) => setToDoInput(e.target.value)}
         />
-        <ButtonAddTask onClick={handleButtonClick}>Dodaj</ButtonAddTask>
+        <ButtonAddTask type='submit'>Dodaj</ButtonAddTask>
       </FormContainer>
 
       <ActiveTaskContainer>
-        <ul>
-          {allTasks.map((task, index) => (
+        <ActiveTaskListContainer>
+          {allTasks.map((task) => (
             <ActiveTask
               confirmed={task.confirmed}
-              key={index}
-              index={index}
-              title={task.title}
-              removeClick={() => handleRemoveTaskButton(index)}
-              confirmClick={() => handleConfirmTaskButton(index)}
+              key={task.id}
+              title={task.toDoInput}
+              id={task.id}
+              handleRemoveTaskButton={handleRemoveTaskButton}
+              handleConfirmTaskButton={handleConfirmTaskButton}
             />
           ))}
-        </ul>
+        </ActiveTaskListContainer>
       </ActiveTaskContainer>
       <CompletedTaskContainer>
-        <CompletedTasks
-          allTasks={allTasks}
-          currentDate={currentDate}
-        />
+        <CompletedTasks allTasks={allTasks} />
       </CompletedTaskContainer>
     </MainWrapper>
   )
@@ -115,6 +108,7 @@ const HeaderContainer = styled.header`
   font-family: 'Permanent Marker', cursive;
   font-size: 22px;
 `
+const HeaderTitle = styled.h2``
 
 const FormContainer = styled.form`
   display: flex;
@@ -148,11 +142,12 @@ const ActiveTaskContainer = styled.div`
   overflow: scroll;
 `
 
+const ActiveTaskListContainer = styled.ul``
+
 const CompletedTaskContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;
   height: 40%;
-  /* background-color: #a1a11e; */
   overflow: hidden;
 `
