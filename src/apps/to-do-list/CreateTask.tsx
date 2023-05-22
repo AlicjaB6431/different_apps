@@ -8,59 +8,46 @@ export type TodoType = {
   id: number
   toDoInput: string
   confirmed: boolean
+  confirmedDate: number
 }
 
 function getCurrentDate() {
-  const date = new Date().getDate()
-  const month = new Date().getMonth() + 1
-  const year = new Date().getFullYear()
-  const hours = new Date().getHours()
-  const min = new Date().getMinutes()
-  // odkąd istnieją tzw template stringi nie dodajemy zmiennych za pomocą znaku +
-  const newDate = `${date}/${month}/${year} || ${hours} : ${min}`
+  const newDate = new Date().getTime()
   return newDate
 }
 
 const CreateTask = () => {
-  const [currentDate, setCurrentDate] = useState(getCurrentDate())
   const { register, handleSubmit, reset } = useForm()
-  const [allTasks, setAllTasks] = useState<TodoType[]>([]) // zapis TodoType[] tzn tablica elementów danego typu
-  // pisząc 'tradycyjnie' formularz, uzywalibyśmy todoInput zeby przeczytac treść z inputa, w hook form nie potrzebujemy
-  // on sam zbierze dane z elementów znajdujących się pomiędzy tagiem <form> a w tym przypadku <FormContainer>, za pomocą {...register}
+  const [allTasks, setAllTasks] = useState<TodoType[]>([])
 
-
-  // ta funkcja odpowiada za stworzenie newTodo i wepchnięcie go do tablicy,
-  // reset odpowiada za czyszczenie inputa, to funkcja wbudowana w hook form
-  // w tym przypadku nie potrzebujemy preventDefault bo nic nie wysyłamy
-  // to jest wyjątkowy przypadek, gdzie wstawiamy parametr data, ale później przy wywołaniu go ju nie podajemy
   const onSubmit = (data: FieldValues) => {
     const newTodo: TodoType = {
       id: Math.random(),
       toDoInput: data.toDoInput,
       confirmed: false,
+      confirmedDate: 0,
     }
     setAllTasks((prevTodos) => [...prevTodos, newTodo])
     reset()
   }
 
   const handleRemoveTaskButton = (id: number) => {
-    // zostawiamy tablicę z id innymi niz kliknięty todo
     setAllTasks((prevTodos) => prevTodos.filter((todo) => todo.id !== id))
   }
 
   const handleConfirmTaskButton = (id: number) => {
-    // to szczerze mówiąc mógłbym napisać lepiej ale nie chce mi się ju przepisywać:D
     setAllTasks((prevTodos) => {
       const updatedTodos = prevTodos.map((todo) => {
         if (todo.id === id) {
           return {
             ...todo,
             confirmed: true,
+            confirmedDate: getCurrentDate(),
           }
         }
         return todo
       })
-      setCurrentDate(getCurrentDate())
+
       return updatedTodos
     })
   }
@@ -68,42 +55,32 @@ const CreateTask = () => {
   return (
     <MainWrapper>
       <HeaderContainer>
-        {/* nie uzywamy zwykłych tagów mając styled components */}
-        <h2>ToDo List</h2>
+        <HeaderTitle>ToDo List</HeaderTitle>
       </HeaderContainer>
       <FormContainer onSubmit={handleSubmit(onSubmit)}>
         <InputContainer
           placeholder='Wpisz zadanie...'
           {...register('toDoInput', { required: true })}
         />
-        {/* onclick na buttonie w typ przypadku był niepotrzebny */}
         <ButtonAddTask type='submit'>Dodaj</ButtonAddTask>
       </FormContainer>
 
       <ActiveTaskContainer>
-        {/* nie uzywamy zwykłych tagów mając styled components */}
-        <ul>
+        <ActiveTaskListContainer>
           {allTasks.map((task) => (
             <ActiveTask
               confirmed={task.confirmed}
               key={task.id}
               title={task.toDoInput}
               id={task.id}
-              // dobra praktyka: nazwa propsa === props
-              // tu jedynie podajemy funckję nizej, więc nie przekazuję () => nazwaFunkcji, tylko samą funkcję
               handleRemoveTaskButton={handleRemoveTaskButton}
               handleConfirmTaskButton={handleConfirmTaskButton}
             />
           ))}
-        </ul>
+        </ActiveTaskListContainer>
       </ActiveTaskContainer>
       <CompletedTaskContainer>
-        <CompletedTasks
-          allTasks={allTasks}
-          // tu jest ten błąd z datą, bo data zawsze będzie taka jak dla ostatniego taska
-          // najlepiej jakby task miał pole confirmedDate
-          currentDate={currentDate}
-        />
+        <CompletedTasks allTasks={allTasks} />
       </CompletedTaskContainer>
     </MainWrapper>
   )
@@ -131,6 +108,7 @@ const HeaderContainer = styled.header`
   font-family: 'Permanent Marker', cursive;
   font-size: 22px;
 `
+const HeaderTitle = styled.h2``
 
 const FormContainer = styled.form`
   display: flex;
@@ -163,6 +141,8 @@ const ActiveTaskContainer = styled.div`
   width: 100%;
   overflow: scroll;
 `
+
+const ActiveTaskListContainer = styled.ul``
 
 const CompletedTaskContainer = styled.div`
   position: relative;

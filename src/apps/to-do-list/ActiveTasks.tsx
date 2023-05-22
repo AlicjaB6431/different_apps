@@ -12,7 +12,6 @@ function ActiveTask({ title, handleRemoveTaskButton, handleConfirmTaskButton, co
   return title.length > 0 && confirmed === false ? (
     <SingleTask>
       <TitleContainer>{title}</TitleContainer>
-      {/* tu dopiero uzywamy tzw callback czyli () => nazwaFunkcji(argumentFunkcji) */}
       <DeleteAndSubmitButtons onClick={() => handleRemoveTaskButton(id)}>Usuń</DeleteAndSubmitButtons>
       <DeleteAndSubmitButtons onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</DeleteAndSubmitButtons>
     </SingleTask>

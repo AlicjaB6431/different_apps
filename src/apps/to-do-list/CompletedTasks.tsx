@@ -3,24 +3,23 @@ import { TodoType } from './CreateTask'
 
 type CompletedTask = {
   allTasks: TodoType[]
-  currentDate: string
 }
 
-function CompletedTasks({ allTasks, currentDate }: CompletedTask) {
+function CompletedTasks({ allTasks }: CompletedTask) {
   let updatedTasks = [...allTasks]
 
   updatedTasks = updatedTasks.filter((task) => task.confirmed === true)
   const completed = updatedTasks.map((task) => (
     <ListContainer key={task.id}>
       {task.toDoInput}
-      <DateContainer>{currentDate}</DateContainer>
+      <DateContainer>{new Date(task.confirmedDate).toLocaleString()}</DateContainer>
     </ListContainer>
   ))
 
   return (
     <MainWrapper>
       <CompletedTasksCount>Zadania ukończone: {completed.length}</CompletedTasksCount>
-      <AllTasksContainer>{completed.reverse().slice(0, 5)}</AllTasksContainer>
+      <AllTasksContainer>{completed.reverse()}</AllTasksContainer>
     </MainWrapper>
   )
 }
