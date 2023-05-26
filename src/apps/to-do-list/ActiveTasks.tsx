@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import Buttons from '../../components/Buttons'
 
 interface Task {
   title: string
@@ -12,8 +13,8 @@ function ActiveTask({ title, handleRemoveTaskButton, handleConfirmTaskButton, co
   return title.length > 0 && confirmed === false ? (
     <SingleTask>
       <TitleContainer>{title}</TitleContainer>
-      <DeleteAndSubmitButtons onClick={() => handleRemoveTaskButton(id)}>Usuń</DeleteAndSubmitButtons>
-      <DeleteAndSubmitButtons onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</DeleteAndSubmitButtons>
+      <Buttons onClick={() => handleRemoveTaskButton(id)}>Usuń</Buttons>
+      <Buttons onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</Buttons>
     </SingleTask>
   ) : null
 }
@@ -30,18 +31,4 @@ const TitleContainer = styled.p`
   width: 60%;
   margin: 10px;
 `
-const DeleteAndSubmitButtons = styled.button`
-  padding: 8px;
-  height: 30px;
-  margin: 0px 5px;
-  background-color: #276ba7;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 12px;
-  cursor: pointer;
-  &:hover {
-    background-color: #14426b;
-  }
-`
+

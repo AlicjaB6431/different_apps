@@ -1,24 +1,18 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import QuizQuestion from './QuizQuestions'
 
 const QuizApp = () => {
   const [quiz, setQuiz] = useState([])
 
-  const URL = 'https://opentdb.com/api.php?amount=10'
-
-  const handleDataFetch = () => {
-    fetch(URL)
-      .then((res) => {
-        if (res.ok) {
-          return res
-        }
-      })
-      .then((res) => res.json())
-      .then((data) => {
-        const questions = data.results
-        setQuiz(questions)
-        console.log(quiz)
-      })
+  async function handleDataFetch() {
+    const response = await fetch('https://opentdb.com/api.php?amount=10')
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    const data = await response.json()
+    const questions = data.results
+    setQuiz(questions)
+    console.log(quiz)
   }
   return (
     <>
