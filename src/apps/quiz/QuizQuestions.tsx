@@ -1,15 +1,26 @@
-import { useState } from 'react'
 
-const QuizQuestion = ({ quiz }) => {
+import Buttons from '../../components/Buttons'
+
+interface QuizProps {
+  quiz: string[]
+  handleDataFetch: () => void
+}
+
+const QuizQuestion = ({ quiz, handleDataFetch }: QuizProps) => {
+  
   const handleCLick = () => {
-    const newQuiz = { ...quiz }
-    const random = newQuiz(Math.floor(Math.random() * newQuiz.length))
+    handleDataFetch()
+    
+    const newQuiz = [...quiz]
+    console.log(newQuiz)
+    const random = newQuiz[Math.floor(Math.random() * newQuiz.length)]
     console.log(random)
+
   }
 
   return (
     <>
-      <button onClick={handleCLick}></button>
+      <Buttons onClick={handleCLick}>Zagraj</Buttons>
     </>
   )
 }

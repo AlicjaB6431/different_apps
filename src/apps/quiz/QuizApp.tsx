@@ -4,20 +4,23 @@ import QuizQuestion from './QuizQuestions'
 const QuizApp = () => {
   const [quiz, setQuiz] = useState([])
 
-  async function handleDataFetch() {
-    const response = await fetch('https://opentdb.com/api.php?amount=10')
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+  const handleDataFetch = async () => {
+    try {
+      const URL = 'https://opentdb.com/api.php?amount=10'
+      const response = await fetch(URL)
+      const data = await response.json()
+      const questions = data.results
+      setQuiz(questions)
+    } catch (err) {
+      alert(err)
     }
-    const data = await response.json()
-    const questions = data.results
-    setQuiz(questions)
-    console.log(quiz)
   }
   return (
     <>
-      <button onClick={handleDataFetch}>Zagraj</button>
-      <QuizQuestion quiz={quiz} />
+      <QuizQuestion
+        quiz={quiz}
+        handleDataFetch={handleDataFetch}
+      />
     </>
   )
 }
