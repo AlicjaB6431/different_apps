@@ -3,6 +3,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import ActiveTask from './ActiveTasks'
 import CompletedTasks from './CompletedTasks'
+import Buttons from '../../components/Buttons'
 
 export type TodoType = {
   id: number
@@ -62,7 +63,13 @@ const CreateTask = () => {
           placeholder='Wpisz zadanie...'
           {...register('toDoInput', { required: true })}
         />
-        <ButtonAddTask type='submit'>Dodaj</ButtonAddTask>
+        <Buttons
+          type='submit'
+          color='primary'
+          size='large'
+        >
+          Dodaj
+        </Buttons>
       </FormContainer>
 
       <ActiveTaskContainer>
@@ -122,19 +129,19 @@ const InputContainer = styled.input`
   font-family: 'Montserrat', sans-serif;
 `
 
-const ButtonAddTask = styled.button`
-  margin-right: 15px;
-  padding: 10px 20px;
-  background-color: #276ba7;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  font-family: 'Montserrat', sans-serif;
-  cursor: pointer;
-  &:hover {
-    background-color: #14426b;
-  }
-`
+// const ButtonAddTask = styled.button`
+//   margin-right: 15px;
+//   padding: 10px 20px;
+//   background-color: #276ba7;
+//   color: white;
+//   border: none;
+//   border-radius: 10px;
+//   font-family: 'Montserrat', sans-serif;
+//   cursor: pointer;
+//   &:hover {
+//     background-color: #14426b;
+//   }
+// `
 
 const ActiveTaskContainer = styled.div`
   height: 40%;
