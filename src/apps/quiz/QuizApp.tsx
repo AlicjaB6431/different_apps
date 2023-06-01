@@ -1,28 +1,21 @@
-import { useEffect, useState } from 'react'
-import QuizQuestion from './QuizQuestions'
+import styled from 'styled-components'
+import Header from './Header'
+import Home from './Home'
+
 
 const QuizApp = () => {
-  const [quiz, setQuiz] = useState([])
-
-  const handleDataFetch = async () => {
-    try {
-      const URL = 'https://opentdb.com/api.php?amount=10'
-      const response = await fetch(URL)
-      const data = await response.json()
-      const questions = data.results
-      setQuiz(questions)
-    } catch (err) {
-      alert(err)
-    }
-  }
   return (
-    <>
-      <QuizQuestion
-        quiz={quiz}
-        handleDataFetch={handleDataFetch}
-      />
-    </>
+    <MainWrapper>
+      <Header />
+      <Home />
+    </MainWrapper>
   )
 }
 
 export default QuizApp
+
+const MainWrapper = styled.div`
+  width: 100vh;
+  height: 100vh;
+  background-color: #8f8fbb;
+`

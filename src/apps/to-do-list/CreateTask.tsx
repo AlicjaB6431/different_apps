@@ -3,7 +3,7 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { useState } from 'react'
 import ActiveTask from './ActiveTasks'
 import CompletedTasks from './CompletedTasks'
-import Buttons from '../../components/Buttons'
+import Button from '../../components/Button'
 
 export type TodoType = {
   id: number
@@ -63,13 +63,13 @@ const CreateTask = () => {
           placeholder='Wpisz zadanie...'
           {...register('toDoInput', { required: true })}
         />
-        <Buttons
+        <Button
           type='submit'
           color='primary'
           size='large'
         >
           Dodaj
-        </Buttons>
+        </Button>
       </FormContainer>
 
       <ActiveTaskContainer>

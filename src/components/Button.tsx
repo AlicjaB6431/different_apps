@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import styled, { css } from 'styled-components'
 
-interface ButtonsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: string
   size?: string
   disabled?: boolean
@@ -9,7 +9,7 @@ interface ButtonsProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   type?: 'submit' | 'reset' | 'button'
 }
 
-const Buttons: FC<ButtonsProps> = ({ color, size, onClick, type, disabled, ...props }) => {
+const Button: FC<ButtonProps> = ({ color, size, onClick, type, disabled, ...props }) => {
   return (
     <ButtonsContainer
       {...props}
@@ -22,9 +22,9 @@ const Buttons: FC<ButtonsProps> = ({ color, size, onClick, type, disabled, ...pr
   )
 }
 
-export default Buttons
+export default Button
 
-const ButtonsContainer = styled.button<ButtonsProps>`
+const ButtonsContainer = styled.button<ButtonProps>`
   padding: 8px;
   margin: 0px 5px;
   background-color: #276ba7;

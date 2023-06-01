@@ -49,6 +49,8 @@ const StylednavLink = styled(NavLink)`
   &:hover {
     color: #f7d6d2;
   }
+
+ 
 `
 
 // tworze nawigację i dodaję do nich odpowiednie ścieżki
