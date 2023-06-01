@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import Buttons from '../../components/Buttons'
+import Button from '../../components/Button'
 
 interface Task {
   title: string
@@ -13,8 +13,8 @@ function ActiveTask({ title, handleRemoveTaskButton, handleConfirmTaskButton, co
   return title.length > 0 && confirmed === false ? (
     <SingleTask>
       <TitleContainer>{title}</TitleContainer>
-      <Buttons onClick={() => handleRemoveTaskButton(id)}>Usuń</Buttons>
-      <Buttons onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</Buttons>
+      <Button onClick={() => handleRemoveTaskButton(id)}>Usuń</Button>
+      <Button onClick={() => handleConfirmTaskButton(id)}>Zatwierdź</Button>
     </SingleTask>
   ) : null
 }
@@ -31,4 +31,3 @@ const TitleContainer = styled.p`
   width: 60%;
   margin: 10px;
 `
-
