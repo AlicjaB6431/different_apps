@@ -23,7 +23,7 @@ const MainWrapper = styled.div`
   height: 100vh;
 `
 
-const BackgroundImage = styled.img`
+const BackgroundImage = styled.img<{imgOpacity: string}>`
   position: absolute;
   width: 100%;
   height: 100%;

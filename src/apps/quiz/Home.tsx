@@ -59,6 +59,7 @@ const Home = () => {
       <InputContainer>
         <NameContainer>Imię:</NameContainer>
         <UserNameContainer
+          required
           type='text'
           name='userName'
           placeholder='Twoje imie...'
