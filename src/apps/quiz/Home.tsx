@@ -1,10 +1,10 @@
-import HomeImage from './img/quizTime.png'
+import HomeImage from './img/idea.png'
 import styled from 'styled-components'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
-export type QuizType = {
+type QuizType = {
   category: string
   question: string
   correct_answer: string
@@ -23,7 +23,7 @@ const Home = () => {
   }, [])
 
   function navigateToQuestions() {
-    navigate('/quiz-app-questions', { state: { name, questions, setQuestions } })
+    navigate('/quiz-app-questions', { state: { name, questions } })
   }
 
   const handleDataFetch = async () => {
@@ -33,7 +33,6 @@ const Home = () => {
       const data = await response.json()
       const quizQuestions = data.results
       setQuestions(quizQuestions)
-      console.log(questions)
       setIsLoading(false)
     } catch (err) {
       setIsLoading(true)
@@ -52,26 +51,26 @@ const Home = () => {
 
   return (
     <MainWrapper>
-      <div>Witamyw quizie, głowna strona, możesz wpisać swoje imie</div>
       <ImageContainer
         src={HomeImage}
-        alt='obraz'
+        alt='rysunek, kobieta stojąca na drabinie przy dużej żarówce wypełnionej chmurami '
       />
-      {error ? <p>Musisz wpisac imię</p> : null}
-      <label>Imię:</label>
-      <input
-        type='text'
-        name='userName'
-        placeholder='Twoje imie...'
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <button
-        onClick={handleSubmit}
-        disabled={isLoading}
-      >
-        {isLoading ? 'ładowanie' : 'Przejdź do quizu'}
-      </button>
+      <ErrorContainer> {error ? <ErrTextContainer>Musisz wpisac imię</ErrTextContainer> : null}</ErrorContainer>
+      <InputContainer>
+        <NameContainer>Imię:</NameContainer>
+        <UserNameContainer
+          type='text'
+          name='userName'
+          placeholder='Twoje imie...'
+          onChange={(e) => setName(e.target.value)}
+        />
+        <NextPageButton
+          onClick={handleSubmit}
+          disabled={isLoading}
+        >
+          {isLoading ? 'ładowanie' : 'Przejdź do quizu'}
+        </NextPageButton>
+      </InputContainer>
     </MainWrapper>
   )
 }
@@ -79,10 +78,58 @@ const Home = () => {
 export default Home
 
 const MainWrapper = styled.div`
+  position: absolute;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  width: 100%;
 `
+
 const ImageContainer = styled.img`
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  border-radius: 10px;
+  margin-top: 140px;
+  border: 5px solid black;
+`
+
+const ErrorContainer = styled.span`
+  position: absolute;
+  width: 80%;
+  max-width: 400px;
+  margin-top: 460px;
+`
+
+const ErrTextContainer = styled.p`
+  background-color: #f13b3b;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+`
+
+const InputContainer = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  max-width: 400px;
+  margin-top: 580px;
+`
+
+const NameContainer = styled.label``
+
+const UserNameContainer = styled.input`
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
+`
+const NextPageButton = styled.button`
+  margin-top: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid black;
 `

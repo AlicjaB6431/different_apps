@@ -3,6 +3,7 @@ import Navigation from './Navigation/Navigation';
 import Page from './Page';
 import styled from 'styled-components';
 
+
 const App = () => {
 	return (
 		<Router>
@@ -20,14 +21,13 @@ const App = () => {
 
 export default App;
 const MainWrapper = styled.div`
-	background-color: #b8dab8;
+width: 100%;
+height: 100%;
 `
 const NavigationContainer = styled.nav`
 	
 `
 const PageContainer = styled.section`
-	display: flex;
-	align-items: center;
-	justify-content: center;
+
 `
 // miejsce, gdzie wyświetlam tylko wszystkie swtorzone elementy

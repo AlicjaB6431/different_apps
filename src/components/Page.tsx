@@ -36,4 +36,3 @@ const Page = () => {
 
 export default Page
 
-// tutuaj tylko importuje wszystko i przekaazuje na jakich ścieżkach mas ię wyświetlać
