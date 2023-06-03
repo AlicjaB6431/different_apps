@@ -6,8 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "lint": "eslint --ext .js --ext .jsx --ext .tsx --ext .ts . --ignore-path .eslintignore",
+    "preview": "vite preview",
+    "pre-commit": "npm lint:fix"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -44,7 +45,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "lint-staged"
     }
   }
 }
