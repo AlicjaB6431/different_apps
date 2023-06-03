@@ -21,6 +21,8 @@ type SingleButtonProps = {
   children: string
 }
 
+console.log('test')
+
 const Question = ({
   options,
   updatedQuestions,
