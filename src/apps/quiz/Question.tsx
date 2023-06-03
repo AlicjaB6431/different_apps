@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
+import { UpdatedQuestionType } from './types'
+
+
 
 type QuestionProps = {
   options: string[]
-  updatedQuestions: [{ question: string }]
+  updatedQuestions: UpdatedQuestionType[]
   score: number
   correct: string
   setOptions: (options: string[]) => void
@@ -21,27 +24,17 @@ type SingleButtonProps = {
   children: string
 }
 
-const Question = ({
-  options,
-  updatedQuestions,
-  setOptions,
-  score,
-  setScore,
-  correct,
-  currentQuestion,
-  setCurrentQuestion,
-  name,
-}: QuestionProps) => {
+const Question = ({ options, updatedQuestions, score, setScore, correct, currentQuestion, setCurrentQuestion, name }: QuestionProps) => {
   const navigate = useNavigate()
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState('')
   const [error, setError] = useState(false)
 
-  const handleSelect = (opt) => {
+  const handleSelect = (opt: string) => {
     if (selected === opt && selected === correct) return 'select'
     else if (selected === opt && selected !== correct) return 'wrong'
   }
 
-  const handleCheck = (opt) => {
+  const handleCheck = (opt: string) => {
     setSelected(opt)
     if (opt === correct) {
       setScore(score + 1)
@@ -59,7 +52,7 @@ const Question = ({
       navigateToResults()
     } else if (selected) {
       setCurrentQuestion(currentQuestion + 1)
-      setSelected()
+      setSelected('')
     } else {
       setError(true)
     }
@@ -80,7 +73,7 @@ const Question = ({
                 onClick={() => {
                   handleCheck(opt)
                 }}
-                disabled={selected}
+                disabled={!!selected}
                 selectedState={handleSelect(opt)}
               >
                 {opt}
