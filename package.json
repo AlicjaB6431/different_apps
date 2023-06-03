@@ -8,7 +8,7 @@
     "build": "tsc && vite build",
     "lint": "eslint --ext .js --ext .jsx --ext .tsx --ext .ts . --ignore-path .eslintignore",
     "preview": "vite preview",
-    "pre-commit": "npm lint:fix"
+    "pre-commit": "npm run lint:fix"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -45,7 +45,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint"
+      "pre-commit": "npm run lint"
     }
   }
 }
