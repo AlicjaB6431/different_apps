@@ -5,6 +5,7 @@ import CreateTask from '../apps/to-do-list/CreateTask'
 import QuizApp from '../apps/quiz/QuizApp'
 import QuizzQuestions from '../apps/quiz/QuizzQuestions'
 import QuizResult from '../apps/quiz/QuizResult'
+import Blog from '../apps/blog/Blog'
 
 const Page = () => {
   return (
@@ -29,6 +30,10 @@ const Page = () => {
       <Route
         path='/quiz-app-results'
         element={<QuizResult />}
+      ></Route>
+      <Route
+        path='/blog'
+        element={<Blog />}
       ></Route>
     </Routes>
   )

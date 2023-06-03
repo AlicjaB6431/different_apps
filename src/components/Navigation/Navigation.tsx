@@ -6,6 +6,7 @@ const list = [
   { name: 'kamień-papier-nożyce', path: '/rock-paper-scisors' },
   { name: 'to-do-list', path: '/to-do-list' },
   { name: 'quiz', path: '/quiz-app' },
+  { name: 'blog', path: '/blog' },
 ]
 
 const Navigation = () => {
