@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router-dom'
-import { UpdatedQuestionProps } from './types'
+import { UpdatedQuestionType } from './types'
 
 
 
 type QuestionProps = {
   options: string[]
-  updatedQuestions: UpdatedQuestionProps[]
+  updatedQuestions: UpdatedQuestionType[]
   score: number
   correct: string
   setOptions: (options: string[]) => void
@@ -28,7 +28,6 @@ const Question = ({ options, updatedQuestions, score, setScore, correct, current
   const navigate = useNavigate()
   const [selected, setSelected] = useState('')
   const [error, setError] = useState(false)
-  console.log({ updatedQuestions })
 
   const handleSelect = (opt: string) => {
     if (selected === opt && selected === correct) return 'select'

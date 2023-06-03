@@ -1,4 +1,4 @@
-export type UpdatedQuestionProps = {
+export type UpdatedQuestionType = {
     category: string,
     type: string,
     difficulty: string,
