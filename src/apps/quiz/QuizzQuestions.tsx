@@ -3,11 +3,10 @@ import { useState, useEffect } from 'react'
 import Question from './Question'
 import styled from 'styled-components'
 import backgroundImage from '../quiz/img/watercolor.jpg'
-import { UpdatedQuestionProps } from './types'
-
+import { UpdatedQuestionType } from './types'
 
 const QuizzQuestions = () => {
-  const [updatedQuestions, setUpdatedQuestions] = useState<UpdatedQuestionProps[]>([])
+  const [updatedQuestions, setUpdatedQuestions] = useState<UpdatedQuestionType[]>([])
   const [options, setOptions] = useState<string[]>([])
   const [score, setScore] = useState(0)
   const [currentQuestion, setCurrentQuestion] = useState(0)
@@ -60,7 +59,7 @@ const QuizzQuestions = () => {
 
 export default QuizzQuestions
 
-const BackgroundImage = styled.img<{imgOpacity: string}>`
+const BackgroundImage = styled.img<{ imgOpacity: string }>`
   position: absolute;
   width: 100%;
   height: 100%;

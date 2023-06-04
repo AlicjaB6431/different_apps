@@ -23,12 +23,13 @@
     "clsx": "^1.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.43.9",
     "react-router-dom": "^6.11.1",
     "styled-components": "^5.3.10",
-    "tailwind-merge": "^1.12.0"
+    "tailwind-merge": "^1.12.0",
+    "yup-password": "^0.2.2"
   },
   "devDependencies": {
+    "@hookform/resolvers": "^3.1.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@types/styled-components": "^5.1.26",
@@ -39,7 +40,9 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "prettier": "^2.8.8",
+    "react-hook-form": "^7.44.3",
     "typescript": "^5.0.2",
-    "vite": "^4.3.2"
+    "vite": "^4.3.2",
+    "yup": "^1.2.0"
   }
 }
