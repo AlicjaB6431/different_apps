@@ -1,166 +1,151 @@
-import { useForm, SubmitHandler, Controller, PathString } from 'react-hook-form'
-import styled from 'styled-components'
+import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
+import { Button } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
-import { useState } from 'react'
-import { ErrorMessage } from '@hookform/error-message'
+import FormControl from '@mui/material/FormControl'
+import { spacing } from '@mui/system'
+import { useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import styled from 'styled-components'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import YupPassword from 'yup-password'
+YupPassword(yup)
 
-enum GenderEnum {
-  female = 'female',
-  male = 'male',
-  other = 'other',
-}
-
-interface IFormInput {
+interface IForm {
   firstName: string
   lastName: string
-  gender: GenderEnum
-  age: number
-  exampleRequired: PathString
-  MyCheckbox: string
-  test: string
   email: string
   password: string
+  confirm_password: string
+  gender: {}
 }
+
 const Form = () => {
   const [gender, setGender] = useState('')
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IFormInput>()
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    const formData = { ...data, gender: gender }
-    console.log(formData)
-  }
+  const validationSchema = useMemo(() => {
+    return yup.object({
+      firstName: yup.string().required('Imię jest wymagane').min(3, 'Imię powinno mieć min 3 litery'),
+      lastName: yup.string().required('Nazwisko jest wymagane'),
+      email: yup
+        .string()
+        .required('E-mail jest wymagany')
+        .matches(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          'E-mail nie jest prawidłowy'
+        ),
+      password: yup
+        .string()
+        .required('Hasło jest wymagane')
+        .min(8, 'Hasło musi składać się z min 8 znaków, w tym: min. 1 wielka litera, 1 mała litera, min. 1 cyfra, min. 1 znak specjany')
+        .minLowercase(1, 'Hasło musi posiadać min. 1 małą literę')
+        .minUppercase(1, 'Hasło musi posiadać min. 1 wielką literę')
+        .minNumbers(1, 'Hasło musi posiadać min. 1 cyfrę')
+        .minSymbols(1, 'Hasło musi posiadać min. 1 znak specjalny'),
+      confirm_password: yup
+        .string()
+        .required('Potwerdzenie hasła jest wymagane')
+        .oneOf([yup.ref('password')], 'Potwierdzone hasło jest błędne'),
+    })
+  }, [])
+
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+  } = useForm<IForm>({ resolver: yupResolver(validationSchema) })
 
   const handleChange = (event: SelectChangeEvent) => {
-    setGender(event.target.value)
+    setGender(event.target.value as string)
   }
 
-  const errorMsg = <T extends keyof IFormInput>(item: T) => {
-    return (
-      <ErrorMessage
-        errors={errors}
-        name={item}
-        render={({ message }) => <p>{message}</p>}
-      />
-    )
+  const customHandleSUbmit = (data: IForm) => {
+    console.log(data)
   }
 
   return (
-    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <InputLabel> Imię</InputLabel>
-        <Controller
-          name='firstName'
-          control={control}
-          rules={{ required: 'Pole wymagane.' }}
-          render={({ field }) => (
-            <>
-              <TextField {...field} />
-              {errorMsg('firstName')}
-            </>
-          )}
+    <BoxContainer sx={{ margin: 5 }}>
+      <FormWrapper onSubmit={handleSubmit(customHandleSUbmit)}>
+        <TextField
+          margin='normal'
+          error={!!errors.firstName}
+          label='Imię'
+          helperText={errors.firstName?.message}
+          {...register('firstName')}
         />
-      </div>
-      <div>
-        <InputLabel> Nazwisko</InputLabel>
-        <Controller
-          name='lastName'
-          control={control}
-          rules={{ required: 'Pole wymagane.' }}
-          render={({ field }) => (
-            <>
-              <TextField {...field} />
-              {errorMsg('lastName')}
-            </>
-          )}
+        <TextField
+          margin='normal'
+          error={!!errors.lastName}
+          label='Nazwisko'
+          helperText={errors.lastName?.message}
+          {...register('lastName')}
         />
-      </div>
-      <div>
-        <InputLabel> E-mail</InputLabel>
-        <Controller
-          name='email'
-          control={control}
-          rules={{ required: `E-mail wymagany` }}
-          render={({ field }) => (
-            <>
-              <TextField {...field} />
-              {errorMsg('email')}
-            </>
-          )}
+        <TextField
+          margin='normal'
+          error={!!errors.email}
+          label='E-mail'
+          helperText={errors.email?.message}
+          {...register('email')}
         />
-      </div>
-      <div>
-        <InputLabel> Hasło</InputLabel>
-        <Controller
-          name='password'
-    
-          control={control}
-          rules={{
-            required: 'Pole wymagane',
-          }}
-          render={({ field }) => (
-            <>
-              <TextField {...field} />
-              {errorMsg('password')}
-            </>
-          )}
+        <FormControl margin='normal'>
+          <InputLabel>Płeć</InputLabel>
+          <Select
+            margin='dense'
+            value={gender}
+            label='gender'
+            {...register('gender')}
+            onChange={handleChange}
+          >
+            <MenuItem value={'men'}>Mężczyzna</MenuItem>
+            <MenuItem value={'women'}>Kobieta</MenuItem>
+            <MenuItem value={'nonbinar'}>Osoba niebinarna</MenuItem>
+          </Select>
+        </FormControl>
+        <TextField
+          margin='normal'
+          error={!!errors.password}
+          label='Hasło'
+          type='password'
+          helperText={errors.password?.message}
+          {...register('password')}
         />
-      </div>
-      <div>
-        <InputLabel>Płeć</InputLabel>
+        <TextField
+          margin='normal'
+          error={!!errors.confirm_password}
+          label='Potwierdź hasło'
+          type='password'
+          helperText={errors.confirm_password?.message}
+          {...register('confirm_password')}
+        />
 
-        <Select
-          value={gender}
-          onChange={handleChange}
+        <Button
+          size='large'
+          type='submit'
+          variant='contained'
         >
-          <MenuItem value={''}>
-            <em>Wybierz</em>
-          </MenuItem>
-          <MenuItem value={'female'}>kobieta</MenuItem>
-          <MenuItem value={'male'}>mężczyzna</MenuItem>
-          <MenuItem value={'other'}>inne</MenuItem>
-        </Select>
-      </div>
-      <div>
-        <InputLabel>Mam skończone 18 lat</InputLabel>
-        <Controller
-          name='age'
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => <Checkbox {...field} />}
-        />
-      </div>
-
-      <Button
-        type='submit'
-        variant='outlined'
-      >
-        Zatwierdź
-      </Button>
-    </FormWrapper>
+          Zatwierdź
+        </Button>
+      </FormWrapper>
+    </BoxContainer>
   )
 }
 
 export default Form
 
-const FormWrapper = styled.form`
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  align-items: center;
-  justify-content: center;
+const BoxContainer = styled(Box)`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
 `
 
-const GenderContainer = styled.div`
+const FormWrapper = styled.form`
   display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
 `

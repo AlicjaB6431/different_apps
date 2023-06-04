@@ -40,7 +40,6 @@ const Question = ({ options, updatedQuestions, score, setScore, correct, current
       setScore(score + 1)
     }
     setError(false)
-    // handleSelect(opt)
   }
 
   function navigateToResults() {
