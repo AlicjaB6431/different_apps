@@ -12,7 +12,7 @@ const list = [
 const Navigation = () => {
   const menu = list.map((item) => (
     <NavLinkContainer key={item.name}>
-      <StylednavLink to={item.path}>{item.name}</StylednavLink>
+      <SingleNav to={item.path}>{item.name}</SingleNav>
     </NavLinkContainer>
   ))
 
@@ -30,7 +30,7 @@ const MainNavigationContainer = styled.nav`
   text-transform: uppercase;
   font-weight: bold;
   background-color: #3c5473;
-  min-width: 90vh;
+  width: 100%;
   font-family: Arial, Helvetica, sans-serif;
 `
 const NavigationContainer = styled.ul`
@@ -42,7 +42,7 @@ const NavLinkContainer = styled.li`
   flex-grow: 1;
   text-decoration: none;
 `
-const StylednavLink = styled(NavLink)`
+const SingleNav = styled(NavLink)`
   display: block;
   padding: 15px 25px;
   color: white;

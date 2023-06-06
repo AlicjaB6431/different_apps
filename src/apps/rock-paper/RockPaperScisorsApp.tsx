@@ -108,19 +108,14 @@ const RockPaperScisorsApp = () => {
 export default RockPaperScisorsApp
 
 const MainWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  height: 90vh;
   font-family: 'Montserrat', sans-serif;
   margin-top: 100px;
   height: 100%;
   @media ${device.mobileM} {
-   width: 70vh;
-
+    width: 70vh;
   }
   @media ${device.tablet} {
     width: 90vh;
@@ -174,31 +169,24 @@ const Image = styled.img`
   }
 `
 const ImageRock = styled(Image)`
-
-@media ${device.mobileM} {
- 
-  left: 5%;
+  @media ${device.mobileM} {
+    left: 5%;
   }
   @media ${device.tablet} {
-   left: -10%
+    left: -10%;
   }
 `
 const ImagePaper = styled(Image)`
-
-@media ${device.mobileM} {
-   
-  left: 33%;
+  @media ${device.mobileM} {
+    left: 33%;
   }
-
 `
 const ImageScissors = styled(Image)`
-
-@media ${device.mobileM} {
-  left: 60%;
-   
+  @media ${device.mobileM} {
+    left: 60%;
   }
   @media ${device.tablet} {
-  left: 75%
+    left: 75%;
   }
 `
 

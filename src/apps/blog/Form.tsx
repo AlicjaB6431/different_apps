@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { Button } from '@mui/material'
+import { device } from '../../components/device'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
-import { spacing } from '@mui/system'
 import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import styled from 'styled-components'
@@ -23,9 +23,12 @@ interface IForm {
   gender: {}
 }
 
-const Form = () => {
-  const [gender, setGender] = useState('')
+interface FormProps {
+  handleShowPopup: () => void
+}
 
+const Form: React.FC<FormProps> = ({ handleShowPopup }) => {
+  const [gender, setGender] = useState('')
   const validationSchema = useMemo(() => {
     return yup.object({
       firstName: yup.string().required('Imię jest wymagane').min(3, 'Imię powinno mieć min 3 litery'),
@@ -51,101 +54,151 @@ const Form = () => {
         .oneOf([yup.ref('password')], 'Potwierdzone hasło jest błędne'),
     })
   }, [])
-
   const {
     formState: { errors },
     handleSubmit,
     register,
   } = useForm<IForm>({ resolver: yupResolver(validationSchema) })
-
   const handleChange = (event: SelectChangeEvent) => {
     setGender(event.target.value as string)
   }
-
   const customHandleSUbmit = (data: IForm) => {
     console.log(data)
   }
-
   return (
-    <BoxContainer sx={{ margin: 5 }}>
-      <FormWrapper onSubmit={handleSubmit(customHandleSUbmit)}>
-        <TextField
-          margin='normal'
-          error={!!errors.firstName}
-          label='Imię'
-          helperText={errors.firstName?.message}
-          {...register('firstName')}
-        />
-        <TextField
-          margin='normal'
-          error={!!errors.lastName}
-          label='Nazwisko'
-          helperText={errors.lastName?.message}
-          {...register('lastName')}
-        />
-        <TextField
-          margin='normal'
-          error={!!errors.email}
-          label='E-mail'
-          helperText={errors.email?.message}
-          {...register('email')}
-        />
-        <FormControl margin='normal'>
-          <InputLabel>Płeć</InputLabel>
-          <Select
-            margin='dense'
-            value={gender}
-            label='gender'
-            {...register('gender')}
-            onChange={handleChange}
-          >
-            <MenuItem value={'men'}>Mężczyzna</MenuItem>
-            <MenuItem value={'women'}>Kobieta</MenuItem>
-            <MenuItem value={'nonbinar'}>Osoba niebinarna</MenuItem>
-          </Select>
-        </FormControl>
-        <TextField
-          margin='normal'
-          error={!!errors.password}
-          label='Hasło'
-          type='password'
-          helperText={errors.password?.message}
-          {...register('password')}
-        />
-        <TextField
-          margin='normal'
-          error={!!errors.confirm_password}
-          label='Potwierdź hasło'
-          type='password'
-          helperText={errors.confirm_password?.message}
-          {...register('confirm_password')}
-        />
-
+    <PopupContainer>
+      <PopupHeader>
+        <PopupText>Załóż konto</PopupText>
         <Button
+          onClick={handleShowPopup}
           size='large'
-          type='submit'
-          variant='contained'
+          variant='outlined'
         >
-          Zatwierdź
+          Powrót
         </Button>
-      </FormWrapper>
-    </BoxContainer>
+      </PopupHeader>
+      <MainPopupContainer>
+        <BoxContainer sx={{ margin: 5 }}>
+          <FormWrapper onSubmit={handleSubmit(customHandleSUbmit)}>
+            <TextField
+              margin='dense'
+              error={!!errors.firstName}
+              label='Imię'
+              helperText={errors.firstName?.message}
+              {...register('firstName')}
+            />
+            <TextField
+              margin='dense'
+              error={!!errors.lastName}
+              label='Nazwisko'
+              helperText={errors.lastName?.message}
+              {...register('lastName')}
+            />
+            <TextField
+              margin='dense'
+              error={!!errors.email}
+              label='E-mail'
+              helperText={errors.email?.message}
+              {...register('email')}
+            />
+            <FormControl margin='normal'>
+              <InputLabel>Płeć</InputLabel>
+              <Select
+                margin='dense'
+                value={gender}
+                label='gender'
+                {...register('gender')}
+                onChange={handleChange}
+              >
+                <MenuItem value={'men'}>Mężczyzna</MenuItem>
+                <MenuItem value={'women'}>Kobieta</MenuItem>
+                <MenuItem value={'nonbinar'}>Osoba niebinarna</MenuItem>
+              </Select>
+            </FormControl>
+            <TextField
+              margin='dense'
+              error={!!errors.password}
+              label='Hasło'
+              type='password'
+              helperText={errors.password?.message}
+              {...register('password')}
+            />
+            <TextField
+              margin='dense'
+              error={!!errors.confirm_password}
+              label='Potwierdź hasło'
+              type='password'
+              helperText={errors.confirm_password?.message}
+              {...register('confirm_password')}
+            />
+            <SubmitButton
+              size='large'
+              variant='contained'
+              type='submit'
+            >
+              Zatwierdź
+            </SubmitButton>
+          </FormWrapper>
+        </BoxContainer>
+      </MainPopupContainer>
+    </PopupContainer>
   )
 }
-
 export default Form
+const PopupContainer = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #f8f3f3;
+  border: 1px solid rgb(66, 69, 71);
+  border-radius: 15px;
 
-const BoxContainer = styled(Box)`
+  @media ${device.mobileM} {
+    height: 90%;
+    width: 90%;
+  }
+  @media (min-width: 400px) {
+   height: 70%;
+   
+  }
+  @media ${device.tablet} {
+    width: 60%;
+    max-width: 700px;
+    height: 70%;
+  }
+`
+const PopupHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px;
+  padding: 0 15px 0 15px;
+
+
+`
+const PopupText = styled.h1`
+  font-size: 25px;
+  font-family: 'Roboto', sans-serif;
+`
+
+const MainPopupContainer = styled.div`
+
+
+`
+
+const BoxContainer = styled(Box)``
+const FormWrapper = styled.form`
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-`
-
-const FormWrapper = styled.form`
+  width: 80%;
   display: flex;
   flex-direction: column;
   height: 100vh;
   justify-content: center;
+`
+const SubmitButton = styled(Button)`
+  margin-top: 20px;
 `

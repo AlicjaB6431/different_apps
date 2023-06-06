@@ -19,18 +19,18 @@ const QuizApp = () => {
 export default QuizApp
 
 const MainWrapper = styled.div`
-  width: 100vh;
-  height: 100vh;
+display: flex;
+height: 90vh;
+align-items: center;
+justify-content: center;
 `
 
-const BackgroundImage = styled.img<{imgOpacity: string}>`
-  position: absolute;
+const BackgroundImage = styled.img<{ imgOpacity: string }>`
+  /* position: absolute;
   width: 100%;
   height: 100%;
   background-image: url(${backgroundImage});
   opacity: ${(props) => props.imgOpacity};
   z-index: -10;
-  background-size: cover;
+  background-size: cover; */
 `
-
-
