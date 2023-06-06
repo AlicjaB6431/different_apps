@@ -22,7 +22,6 @@ const Page = () => {
         path='/quiz-app'
         element={<QuizApp />}
       ></Route>
-
       <Route
         path='/quiz-app-questions'
         element={<QuizzQuestions />}
