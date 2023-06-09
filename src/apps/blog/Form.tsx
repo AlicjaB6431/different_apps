@@ -1,14 +1,18 @@
+import { useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
+
+import { device } from '../../components/device'
+
+import styled from 'styled-components'
+
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { Button } from '@mui/material'
-import { device } from '../../components/device'
 import MenuItem from '@mui/material/MenuItem'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
-import { useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
-import styled from 'styled-components'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
+
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import YupPassword from 'yup-password'
@@ -153,6 +157,7 @@ const PopupContainer = styled.div`
   background-color: #f8f3f3;
   border: 1px solid rgb(66, 69, 71);
   border-radius: 15px;
+  z-index: 100;
 
   @media ${device.mobileM} {
     height: 90%;

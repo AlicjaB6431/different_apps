@@ -1,19 +1,22 @@
 import { BrowserRouter as Router } from 'react-router-dom'
-import Navigation from './Navigation/Navigation'
 import SideBar from './Navigation/SideBar'
 import Page from './Page'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 import styled from 'styled-components'
 
 const App = () => {
+ 
+
   return (
     <Router>
       <MainWrapper>
         <NavigationContainer>
           <SideBar />
-          {/* <Navigation /> */}
         </NavigationContainer>
         <PageContainer>
+        
           <Page />
         </PageContainer>
       </MainWrapper>
