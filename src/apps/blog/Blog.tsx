@@ -1,22 +1,28 @@
-import Form from './Form'
-import styled from 'styled-components'
 import { useState } from 'react'
 import axios from 'axios'
+import styled from 'styled-components'
+
 import { useQuery } from '@tanstack/react-query'
+
+import Form from './Form'
+import NewArticle from './NewArticle'
+import { device } from '../../components/device'
+
 import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook'
 import Button from '@mui/material/Button'
-import { device } from '../../components/device'
 import TextField from '@mui/material/TextField'
 
 const Blog = () => {
   const [popup, setPopup] = useState(false)
+
+  const [showAddArticle, setShowAddArticle] = useState(false)
 
   const [searchArt, setSearchArt] = useState('')
 
   const postQuery = useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
+      const response = await axios.get('http://localhost:5000/posts')
       const data = await response.data
       return data
     },
@@ -31,6 +37,10 @@ const Blog = () => {
 
   const searchSingleItem = (e) => {
     setSearchArt(e.target.value)
+  }
+
+  const handleAddArticle = () => {
+    setShowAddArticle(!showAddArticle)
   }
 
   return (
@@ -53,6 +63,15 @@ const Blog = () => {
         {popup && <Form handleShowPopup={handleShowPopup} />}
       </MainHeaderContainer>
       <MainArticlesContainer>
+        <AddArticleBtn
+          variant='outlined'
+          size='small'
+          onClick={handleAddArticle}
+          style={{ minWidth: '30px', fontSize: '10px' }}
+        >
+          Dodaj artykuł
+        </AddArticleBtn>
+        {showAddArticle && <NewArticle handleAddArticle={handleAddArticle} />}
         <SearchContainer>
           <TextField
             id='outlined-basic'
@@ -70,6 +89,7 @@ const Blog = () => {
             <ArticleContainer key={item.id}>
               <ArticleHeader>{item.title}</ArticleHeader>
               <ArticleText>{item.body}</ArticleText>
+              <ArtiicleAuthor>Autor: {item.userId}</ArtiicleAuthor>
             </ArticleContainer>
           ))}
       </MainArticlesContainer>
@@ -112,7 +132,7 @@ const LogBtn = styled(Button)`
 
 const MainArticlesContainer = styled.div``
 
-const SearchBtn = styled(Button)``
+const AddArticleBtn = styled(Button)``
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -129,4 +149,7 @@ const ArticleHeader = styled.h3`
 const ArticleText = styled.p`
   font-size: 20px;
   padding-bottom: 10px;
+`
+const ArtiicleAuthor = styled.p`
+  font-size: 14px;
 `
