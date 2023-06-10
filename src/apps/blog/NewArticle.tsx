@@ -1,53 +1,35 @@
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { renderToString } from 'react-dom/server'
 
 import { device } from '../../components/device'
 
-import axios from 'axios'
 import styled from 'styled-components'
 
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { Button } from '@mui/material'
 
-interface IForm {
-  text: string
-  author: string
-  title: string
-}
-
 interface FormProps {
   handleAddArticle: () => void
+  axiosPostData: () => void
+  setAuthorData: (data: string) => void
+  setTextData: (data: string) => void
+  setTitleData: (data: string) => void
+  formMsg: string
+  setFormMsg: (formMsg: string) => void
 }
 
-const NewArticle: React.FC<FormProps> = ({ handleAddArticle }) => {
-  const {
-    formState: {},
-    handleSubmit,
-    register,
-  } = useForm<IForm>({})
+const NewArticle: React.FC<FormProps> = ({
+  handleAddArticle,
+  setAuthorData,
+  setTextData,
+  setTitleData,
+  axiosPostData,
+  formMsg,
+  setFormMsg,
+}) => {
+  const { handleSubmit, register } = useForm({})
 
-  const [authorData, setAuthorData] = useState('')
-  const [textData, setTextData] = useState('')
-  const [titleData, setTitleData] = useState('')
-  const [formMsg, setFormMsg] = useState('')
-
-  const axiosPostData = async () => {
-    const postData = {
-      title: titleData,
-      body: textData,
-      userId: authorData,
-    }
-
-    await axios.post('http://localhost:5000/posts', postData).then((res) => setFormMsg(res.data))
-  }
-
-  const customHandleSUbmit = (data: IForm) => {
-    setAuthorData(data.author)
-    setTextData(data.text)
-    setTitleData(data.title)
-
+  const customHandleSUbmit = () => {
     setFormMsg('')
     axiosPostData()
   }
@@ -69,12 +51,14 @@ const NewArticle: React.FC<FormProps> = ({ handleAddArticle }) => {
             <TextField
               margin='normal'
               label='Autor'
-              {...register('author')}
+              {...register('userId', { required: true })}
+              onChange={(e) => setAuthorData(e.target.value)}
             />
             <TextField
               margin='normal'
               label='Tytuł'
-              {...register('title')}
+              {...register('title', { required: true })}
+              onChange={(e) => setTitleData(e.target.value)}
             />
 
             <TextField
@@ -83,6 +67,8 @@ const NewArticle: React.FC<FormProps> = ({ handleAddArticle }) => {
               label='Tekst'
               multiline
               rows={10}
+              {...register('body', { required: true })}
+              onChange={(e) => setTextData(e.target.value)}
             />
 
             <SubmitButton
@@ -92,7 +78,7 @@ const NewArticle: React.FC<FormProps> = ({ handleAddArticle }) => {
             >
               Zatwierdź
             </SubmitButton>
-           <p> {formMsg}</p>
+            <p> {formMsg}</p>
           </FormWrapper>
         </BoxContainer>
       </MainPopupContainer>
@@ -108,7 +94,7 @@ const PopupContainer = styled.div`
   background-color: #f8f3f3;
   border: 1px solid rgb(66, 69, 71);
   border-radius: 15px;
-  z-index: 1;
+  z-index: 100;
 
   @media ${device.mobileM} {
     height: 90%;

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
@@ -12,14 +12,24 @@ import LaptopChromebookIcon from '@mui/icons-material/LaptopChromebook'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 
+interface Item {
+  id: number
+  title: string
+  body: string
+  userId: number
+}
+
 const Blog = () => {
   const [popup, setPopup] = useState(false)
-
   const [showAddArticle, setShowAddArticle] = useState(false)
-
   const [searchArt, setSearchArt] = useState('')
 
-  const postQuery = useQuery({
+  const [authorData, setAuthorData] = useState('')
+  const [textData, setTextData] = useState('')
+  const [titleData, setTitleData] = useState('')
+  const [formMsg, setFormMsg] = useState('')
+
+  const axiosFetchData = useQuery({
     queryKey: ['posts'],
     queryFn: async () => {
       const response = await axios.get('http://localhost:5000/posts')
@@ -28,14 +38,24 @@ const Blog = () => {
     },
   })
 
-  if (postQuery.isLoading) return <h1>Loading....</h1>
-  if (postQuery.isError) return <h1>Error loading data!!!</h1>
+  if (axiosFetchData.isLoading) return <h1>Loading....</h1>
+  if (axiosFetchData.isError) return <h1>Error loading data!!!</h1>
+
+  const axiosPostData = async () => {
+    const postData = {
+      title: titleData,
+      body: textData,
+      userId: authorData,
+    }
+
+    await axios.post('http://localhost:5000/posts', postData).then((res) => setFormMsg(res.data))
+  }
 
   const handleShowPopup = () => {
     setPopup(!popup)
   }
 
-  const searchSingleItem = (e) => {
+  const searchSingleItem = (e: React.MouseEvent<HTMLButtonElement>) => {
     setSearchArt(e.target.value)
   }
 
@@ -71,7 +91,17 @@ const Blog = () => {
         >
           Dodaj artykuł
         </AddArticleBtn>
-        {showAddArticle && <NewArticle handleAddArticle={handleAddArticle} />}
+        {showAddArticle && (
+          <NewArticle
+            handleAddArticle={handleAddArticle}
+            setAuthorData={setAuthorData}
+            setTextData={setTextData}
+            setTitleData={setTitleData}
+            axiosPostData={axiosPostData}
+            formMsg={formMsg}
+            setFormMsg={setFormMsg}
+          />
+        )}
         <SearchContainer>
           <TextField
             id='outlined-basic'
@@ -81,11 +111,11 @@ const Blog = () => {
           />
         </SearchContainer>
 
-        {postQuery.data
-          .filter((item) => {
+        {axiosFetchData.data
+          .filter((item: Item) => {
             return searchArt.toLowerCase() === '' ? item : item.title.toLowerCase().includes(searchArt)
           })
-          .map((item) => (
+          .map((item: Item) => (
             <ArticleContainer key={item.id}>
               <ArticleHeader>{item.title}</ArticleHeader>
               <ArticleText>{item.body}</ArticleText>
