@@ -12,11 +12,12 @@ const Header = () => {
 export default Header
 
 const MainWrapper = styled.div`
-  position: absolute;
+  /* position: absolute;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%); */
   display: flex;
   flex-direction: column;
+  top: 10%;
 `
 const MainText = styled.h3`
   font-size: 4rem;

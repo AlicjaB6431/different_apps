@@ -85,6 +85,7 @@ const MainWrapper = styled.div`
   align-items: center;
   font-family: 'Montserrat', sans-serif;
   width: 100%;
+  /* height: 100%; */
 `
 
 const ImageContainer = styled.img`

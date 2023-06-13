@@ -158,14 +158,12 @@ const PopupContainer = styled.div`
   border: 1px solid rgb(66, 69, 71);
   border-radius: 15px;
   z-index: 100;
+  height: 90%;
+  width: 90%;
 
-  @media ${device.mobileM} {
-    height: 90%;
-    width: 90%;
-  }
   @media (min-width: 400px) {
-   height: 70%;
-   
+    height: 70%;
+    width: 80%;
   }
   @media ${device.tablet} {
     width: 60%;
@@ -179,18 +177,13 @@ const PopupHeader = styled.div`
   align-items: center;
   margin: 20px;
   padding: 0 15px 0 15px;
-
-
 `
 const PopupText = styled.h1`
   font-size: 25px;
   font-family: 'Roboto', sans-serif;
 `
 
-const MainPopupContainer = styled.div`
-
-
-`
+const MainPopupContainer = styled.div``
 
 const BoxContainer = styled(Box)``
 const FormWrapper = styled.form`
