@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import Header from './Header'
 import Home from './Home'
-import backgroundImage from '../quiz/img/background.jpg'
 
 const QuizApp = () => {
   return (
@@ -20,17 +19,11 @@ export default QuizApp
 
 const MainWrapper = styled.div`
 display: flex;
-height: 90vh;
-align-items: center;
+height: 90%;
+width: 100%;
 justify-content: center;
 `
 
 const BackgroundImage = styled.img<{ imgOpacity: string }>`
-  /* position: absolute;
-  width: 100%;
-  height: 100%;
-  background-image: url(${backgroundImage});
-  opacity: ${(props) => props.imgOpacity};
-  z-index: -10;
-  background-size: cover; */
+
 `

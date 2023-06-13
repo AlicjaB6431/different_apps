@@ -91,15 +91,13 @@ const PopupContainer = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #f8f3f3;
+  background-color: #fcf9f9;
   border: 1px solid rgb(66, 69, 71);
   border-radius: 15px;
   z-index: 100;
+  height: 90%;
+  width: 90%;
 
-  @media ${device.mobileM} {
-    height: 90%;
-    width: 90%;
-  }
   @media (min-width: 400px) {
     height: 70%;
   }

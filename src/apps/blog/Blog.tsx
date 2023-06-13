@@ -65,43 +65,44 @@ const Blog = () => {
 
   return (
     <MainWrapper>
-      <MainHeaderContainer>
-        <HeaderContainer>
-          <LaptopChromebookIcon fontSize='large'></LaptopChromebookIcon>
-          <MainTextContainer>Blog</MainTextContainer>
-        </HeaderContainer>
+      <HeaderContainer>
+        <HeaderOverlay>
+          <MainTextContainer>Mój Blog</MainTextContainer>
+        </HeaderOverlay>
+      </HeaderContainer>
 
-        <LogBtn
-          variant='outlined'
-          size='small'
-          onClick={handleShowPopup}
-          style={{ minWidth: '30px', fontSize: '10px' }}
-        >
-          Załóż konto
-        </LogBtn>
-
-        {popup && <Form handleShowPopup={handleShowPopup} />}
-      </MainHeaderContainer>
       <MainArticlesContainer>
-        <AddArticleBtn
-          variant='outlined'
-          size='small'
-          onClick={handleAddArticle}
-          style={{ minWidth: '30px', fontSize: '10px' }}
-        >
-          Dodaj artykuł
-        </AddArticleBtn>
-        {showAddArticle && (
-          <NewArticle
-            handleAddArticle={handleAddArticle}
-            setAuthorData={setAuthorData}
-            setTextData={setTextData}
-            setTitleData={setTitleData}
-            axiosPostData={axiosPostData}
-            formMsg={formMsg}
-            setFormMsg={setFormMsg}
-          />
-        )}
+        <BtnsContainer>
+          <LogBtn
+            variant='outlined'
+            size='small'
+            onClick={handleShowPopup}
+      
+          >
+            Załóż konto
+          </LogBtn>
+          {popup && <Form handleShowPopup={handleShowPopup} />}
+          <AddArticleBtn
+            variant='outlined'
+            size='small'
+            onClick={handleAddArticle}
+          
+          >
+            Dodaj artykuł
+          </AddArticleBtn>
+
+          {showAddArticle && (
+            <NewArticle
+              handleAddArticle={handleAddArticle}
+              setAuthorData={setAuthorData}
+              setTextData={setTextData}
+              setTitleData={setTitleData}
+              axiosPostData={axiosPostData}
+              formMsg={formMsg}
+              setFormMsg={setFormMsg}
+            />
+          )}
+        </BtnsContainer>
         <SearchContainer>
           <TextField
             id='outlined-basic'
@@ -131,6 +132,7 @@ export default Blog
 const MainWrapper = styled.div`
   height: 100%;
   font-size: 3em;
+  margin: 10px;
 
   @media ${device.tablet} {
     position: absolute;
@@ -140,46 +142,77 @@ const MainWrapper = styled.div`
     max-width: 1000px;
   }
 `
-const MainHeaderContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 30px;
+
+const HeaderContainer = styled.header`
+  text-align: center;
+  width: 100%;
+  height: auto;
+  background-size: cover;
+  background-attachment: fixed;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0 0 85% 85% / 30%;
+  background: rgb(65, 62, 122);
+  @media ${device.tablet} {
+    height: 100px;
+  }
 `
-const HeaderContainer = styled.div`
-  display: flex;
-  align-items: center;
+
+const HeaderOverlay = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  color: #fff;
+  text-shadow: 1px 1px 1px #333;
+  background: linear-gradient(
+    90deg,
+    rgba(65, 62, 122, 1) 0%,
+    rgba(16, 16, 65, 0.8223234624145785) 37%,
+    rgba(128, 71, 131, 0.8405466970387243) 100%
+  );
 `
 const MainTextContainer = styled.h2`
   font-size: 50px;
   font-family: 'Playfair', serif;
   margin-left: 10px;
 `
-
+const BtnsContainer = styled.div`
+  padding: 10px;
+  margin: 15px 0px;
+  display: flex;
+  justify-content: space-between;
+`
 const LogBtn = styled(Button)`
-  height: 30px;
+
+`
+
+const AddArticleBtn = styled(Button)`
+
 `
 
 const MainArticlesContainer = styled.div``
-
-const AddArticleBtn = styled(Button)``
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0px 40px;
 `
 const ArticleContainer = styled.div`
-  border-bottom: 1px solid black;
-  margin: 40px 20px 0px;
+  border: 1px solid rgba(121, 121, 122, 0.452);
+  margin: 30px 0px;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 5px 5px 10px rgb(88, 88, 88);
 `
 const ArticleHeader = styled.h3`
   font-size: 25px;
   margin-bottom: 15px;
+  text-align: center;
 `
 const ArticleText = styled.p`
-  font-size: 20px;
+  font-size: 16px;
   padding-bottom: 10px;
+  text-align: center;
 `
 const ArtiicleAuthor = styled.p`
   font-size: 14px;
+  text-align: end;
 `
